@@ -8,7 +8,69 @@ const auth = require("./verifyToken");
 const Company = require("./models/Company"); //including the company model
 const Category = require("./models/Category");
 const User = require("./models/User");
+const Comment = require("./models/Comment");
 
+//create a comment
+router.post("/comment", async (req, res) => {
+  try {
+    const { name } = req.body;
+    const { email } = req.body;
+    const { comments } = req.body;
+    const { companies } = req.body;
+
+    const comment = await Comment.create({
+      name,
+      email,
+      comments,
+      companies,
+    });
+
+    return res.status(201).json(comment);
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+
+//get all comments
+router.get("/comment", async (req, res) => {
+  try {
+    const comments = await Comment.find();
+    return res.status(200).json(comments);
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+
+// delete comment
+router.delete("/comment/:id", async (req, res) => {
+  try {
+    const _id = req.params.id;
+
+    const comment = await Comment.deleteOne({ _id });
+
+    if (comment.deletedCount === 0) {
+      return res.status(404).json();
+    } else {
+      return res.status(204).json();
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+
+//get all comments from a specific company
+router.get("/comment/companies/:id", async (req, res) => {
+  try {
+    const _id = req.params.id;
+
+    const comment = await Comment.find({ companies: _id });
+    return res.status(200).json(comment);
+  } catch (error) {
+    return res.status(500).json({ error: error });
+  }
+});
+
+//get all companies
 router.get("/companies", async (req, res) => {
   try {
     const companies = await Company.find();
