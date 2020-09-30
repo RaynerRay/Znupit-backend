@@ -4,6 +4,10 @@ const CommentSchema = new mongoose.Schema({
   name: String,
   email: String,
   comments: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   companies: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -89,6 +89,8 @@ router.post("/companies", auth, async (req, res) => {
     const { location } = req.body;
     const { photos } = req.body;
     const { categories } = req.body;
+    const { website } = req.body;
+    const { about } = req.body;
 
     const company = await Company.create({
       name,
@@ -97,6 +99,8 @@ router.post("/companies", auth, async (req, res) => {
       location,
       photos,
       categories,
+      website,
+      about,
     });
 
     return res.status(201).json(company);
@@ -109,7 +113,16 @@ router.post("/companies", auth, async (req, res) => {
 router.put("/companies/:id", async (req, res) => {
   try {
     const _id = req.params.id;
-    const { name, summary, contact, location, photos, categories } = req.body;
+    const {
+      name,
+      summary,
+      contact,
+      location,
+      photos,
+      categories,
+      website,
+      about,
+    } = req.body;
 
     let company = await Company.findOne({ _id });
 
@@ -121,6 +134,8 @@ router.put("/companies/:id", async (req, res) => {
         location,
         photos,
         categories,
+        website,
+        about,
       });
       return res.status(201).json(company);
     } else {
@@ -140,6 +155,13 @@ router.put("/companies/:id", async (req, res) => {
       if (photos) {
         company.photos = photos;
       }
+      if (website) {
+        company.website = website;
+      }
+      if (about) {
+        company.about = about;
+      }
+
       if (categories) {
         company.categories = categories.map((category) =>
           mongoose.Types.ObjectId(category)

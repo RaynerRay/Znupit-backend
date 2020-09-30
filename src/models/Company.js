@@ -5,8 +5,9 @@ const CompanySchema = new mongoose.Schema({
 
   summary: String,
   contact: String,
-
+  website: String,
   location: String,
+  about: String,
 
   photos: [
     {
