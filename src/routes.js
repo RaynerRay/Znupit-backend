@@ -84,6 +84,7 @@ router.get("/companies", async (req, res) => {
 router.post("/companies", auth, async (req, res) => {
   try {
     const { name } = req.body;
+    const { email } = req.body;
     const { summary } = req.body;
     const { contact } = req.body;
     const { location } = req.body;
@@ -91,9 +92,11 @@ router.post("/companies", auth, async (req, res) => {
     const { categories } = req.body;
     const { website } = req.body;
     const { about } = req.body;
+    const { logo } = req.body;
 
     const company = await Company.create({
       name,
+      email,
       summary,
       contact,
       location,
@@ -101,6 +104,7 @@ router.post("/companies", auth, async (req, res) => {
       categories,
       website,
       about,
+      logo,
     });
 
     return res.status(201).json(company);
@@ -115,6 +119,7 @@ router.put("/companies/:id", async (req, res) => {
     const _id = req.params.id;
     const {
       name,
+      email,
       summary,
       contact,
       location,
@@ -122,6 +127,7 @@ router.put("/companies/:id", async (req, res) => {
       categories,
       website,
       about,
+      logo,
     } = req.body;
 
     let company = await Company.findOne({ _id });
@@ -129,6 +135,7 @@ router.put("/companies/:id", async (req, res) => {
     if (!company) {
       company = await Company.create({
         name,
+        email,
         summary,
         contact,
         location,
@@ -136,12 +143,16 @@ router.put("/companies/:id", async (req, res) => {
         categories,
         website,
         about,
+        logo,
       });
       return res.status(201).json(company);
     } else {
       // updates only the given fields
       if (name) {
         company.name = name;
+      }
+      if (email) {
+        company.email = email;
       }
       if (summary) {
         company.summary = summary;
@@ -160,6 +171,9 @@ router.put("/companies/:id", async (req, res) => {
       }
       if (about) {
         company.about = about;
+      }
+      if (logo) {
+        company.logo = logo;
       }
 
       if (categories) {
