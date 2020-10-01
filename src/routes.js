@@ -81,7 +81,7 @@ router.get("/companies", async (req, res) => {
 });
 
 // create a company
-router.post("/companies", auth, async (req, res) => {
+router.post("/companies", async (req, res) => {
   try {
     const { name } = req.body;
     const { email } = req.body;
