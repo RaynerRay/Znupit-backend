@@ -16,6 +16,7 @@ router.post("/comment", async (req, res) => {
     const { name } = req.body;
     const { email } = req.body;
     const { comments } = req.body;
+    const { rating } = req.body;
     const { companies } = req.body;
 
     const comment = await Comment.create({
@@ -23,6 +24,7 @@ router.post("/comment", async (req, res) => {
       email,
       comments,
       companies,
+      rating,
     });
 
     return res.status(201).json(comment);

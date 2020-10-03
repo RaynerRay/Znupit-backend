@@ -4,6 +4,7 @@ const CommentSchema = new mongoose.Schema({
   name: String,
   email: String,
   comments: String,
+  rating: Number,
   createdAt: {
     type: Date,
     default: Date.now,
